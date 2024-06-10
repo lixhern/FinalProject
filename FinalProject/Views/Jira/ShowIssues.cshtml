@@ -1,0 +1,26 @@
+﻿
+@{
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="lang" key="theme">Theme</th>
+                <th class="lang" key="nameCol">Collection name</th>
+                <th class="lang" key="status">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var issue in Model.issues)
+            {
+                <tr>
+                    <td><a href="https://finalprojectandrei.atlassian.net/jira/software/projects/KAN/boards/1?selectedIssue=@issue.key">@issue.fields.summary</a></td>
+                    <td> @issue.fields.customfield_10033.content[0].content[0].text</td>
+                    <td style="color: @issue.fields.status.statusCategory.colorName">@issue.fields.status.name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    
+}

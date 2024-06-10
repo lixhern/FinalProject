@@ -1,0 +1,38 @@
+﻿@model FinalProject.ViewModels.RegistrationViewModel
+@{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col">
+            <div class="row">
+                <h1 class="lang" key ="signin">Registration</h1>
+                <form method="post" asp-controller="Account" asp-action="Registration">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label lang" key ="email">Email address</label>
+                        <input asp-for="Email" class="form-control"/>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label lang" key ="username">User name</label>
+                        <input asp-for="UserName" class="form-control"/>
+                        <span asp-validation-for="UserName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" for="exampleInputPassword1" class="form-label lang" key="password">Password</label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                        <button type="submit" class="btn btn-outline-success lang mb-3" key="submit">Submit</button>
+                </form>
+            </div>
+            <div class="row">
+                <a class="lang" key ="signin2" href="Login">Already have an account?</a>
+            </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+}

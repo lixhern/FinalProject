@@ -1,0 +1,122 @@
+﻿@model FinalProject.ViewModels.CreateCollectionViewModel;
+@using FinalProject.Enum;
+
+<style>
+    button.btn.btn-outline-success:focus {
+        outline: none;
+        box-shadow: none;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form method="post" asp-controller="Collection" asp-action="Create">
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label lang" key ="nameCol">Name of the collection</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name"></span>
+                </div>
+               @*  <div class="mb-3">
+                    <label asp-for="ImageUrl" class="form-label lang" key ="imageUrl">ImageURL</label>
+                    <input asp-for="ImageUrl" class="form-control" />
+                   
+                </div> *@
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label lang" key ="description">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Category" class="form-label lang" key="catCol">Category</label>
+                    <select asp-for="Category" class="form-select" aria-label="Default select example">
+                        <option value=""class="lang" key="select">Select category</option>
+                        @foreach (var category in Enum.GetValues(typeof(Category)))
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Category"></span>
+                </div>
+                <div class="mb-3" id="custom1" style="display: none;">
+                    <label asp-for="CustomString1Name" class="form-label lang" key="cfield1">Name of the first custom field</label>
+                    <input asp-for="CustomString1Name" class="form-control" />
+                    <!-- CUSTOM STRING 1 ПЕРЕДАЮТСЯ ДАННЫЕ, осталось косметика-->
+                </div>
+                <div class="mb-3" id="custom2" style="display: none;">
+                    <label asp-for="CustomString2Name" class="form-label lang" key="cfield2">Name of the second custom field</label>
+                    <input asp-for="CustomString2Name" class="form-control" />
+                    <!-- CUSTOM STRING 2-->
+                </div>
+                <div class="mb-3" id="custom3" style="display: none;">
+                    <label asp-for="CustomString3Name" class="form-label lang" key="cfield3">Name of the third custom field</label>
+                    <input asp-for="CustomString3Name" class="form-control" />
+                    <!-- CUSTOM STRING 3-->
+                </div>
+                <input id="customState1" type="hidden" asp-for="CustomString1State" value="false" />
+                <input id="customState2" type="hidden" asp-for="CustomString2State" value="false" />
+                <input id="customState3" type="hidden" asp-for="CustomString3State" value="false" />
+
+                <div class="btn-group d-flex justify-content-center align-items-center mb-3" role="group" aria-label="Basic example">
+                    <button type="button" id="addCustomFieldButton" class="btn btn-outline-success lang" key ="add" style="display: active">Добавить кастомное поле</button>
+                    <button type="button" id="deleteCustomFieldButton" class="btn btn-outline-success lang " key="delc" key="add" style="display: none">Delete кастомное поле</button>
+                    </div>
+                
+                <div class="d-flex justify-content-center align-items-center">
+                    <button type="submit" class="btn btn-outline-success lang" key="submit">Submit</button>
+                </div>
+
+                <div class="row" >
+                    <div class="col"></div>
+                    <div class="col-10"></div>
+                    <div class="col"></div>
+                   
+                </div>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        var customFieldCount = 0;
+        var maxCustomFieldCount = 3;
+        var createButton = document.getElementById('addCustomFieldButton');
+        var deleteButton = document.getElementById('deleteCustomFieldButton');
+
+        createButton.addEventListener('click', function () {
+            customFieldCount++;
+            var custom = document.getElementById('custom' + customFieldCount);
+            var customState = document.getElementById('customState'+customFieldCount);
+            
+            if (customFieldCount > 0) {
+                custom.style.display = 'block';
+                customState.value = 'true';
+                deleteButton.style.display = 'block';
+            }
+            if (customFieldCount === 3) {
+                this.style.display = 'none';
+            }
+        });
+
+        deleteButton.addEventListener('click', function () {
+            
+            var custom = document.getElementById('custom' + customFieldCount);
+            var customState = document.getElementById('customState' + customFieldCount);
+            custom.style.display = 'none';
+            customState.value = 'false';
+            customFieldCount--;
+            if(customFieldCount === 0){
+                this.style.display = 'none';
+            }
+            if (customFieldCount < 3) {
+                createButton.style.display = 'block';
+            }
+        });
+    </script>
+}

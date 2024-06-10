@@ -1,0 +1,100 @@
+﻿@model FinalProject.Models.HomePanelModel
+
+<style>
+
+    .tag-cloud span {
+        margin: 5px;
+        padding: 3px;
+        display: inline-block;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+        text-decoration: none;
+        color: #333;
+    }
+
+        .tag-cloud span:hover {
+            background-color: #ddd;
+        }
+</style>
+
+<div class="text-center">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h1 class="lang" key="welcome1">
+            Добро пожаловать, 
+        </h1>
+        <h1>@User.Identity.Name!</h1>
+    }
+    else
+    {
+        <h1 class="lang" key="welcome2">Добро пожаловать!</h1>
+    }
+    <hr></hr>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <h3 class="lang mt-2 mb-2" key="collections">Пять самых больших коллекций</h3>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th class="lang" key="nameCol" scope="col">Название коллекции</th>
+                            <th class="lang" key="catCol" scope="col">Категории</th>
+                            <th class="lang" key="author" scope="col">Автор</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var collection in @Model.Collections)
+                        {
+                           
+                            <tr>
+
+                                <td scope="row"><a asp-area="" asp-route-id="@collection.Id" asp-controller="Collection" asp-action="Index">@collection.Name</a></td>
+                                <td scope="row"><a asp-area="" asp-route-category="@collection.Category" asp-controller="Collection" asp-action="CollectionsByCategory">@collection.Category </a></td>
+                                <td scope="row"><a asp-area="" asp-route-id="@collection.User.Id" asp-controller="Home" asp-action="UserView">@collection.User.UserName</a></td>
+                            </tr>
+     
+                        }
+                    </tbody>
+                </table>             
+            </div>
+            <div class="col">
+                <h3 class="lang mt-2 mb-2" key="items">Пять последних добавленных айтемов</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th class="lang" key="nameIte" scope="col">Название айтема</th>
+                            <th class="lang" key="nameCol" scope="col">Название коллекции</th>
+                            <th class="lang" key="author" scope="col">Автор</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in @Model.Items)
+                        {
+                            <tr>
+                                <td scope="row"><a asp-area="" asp-route-id="@item.Id" asp-controller="Item" asp-action="Index">@item.Name</a></td>
+                                <td scope="row"><a asp-area="" asp-route-id="@item.Collection.Id" asp-controller="Collection" asp-action="Index">@item.Collection.Name</a></td>
+                                <td scope="row"><a asp-area="" asp-route-id="@item.User.Id" asp-controller="Home" asp-action="UserView">@item.User.UserName</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h3 class="lang" key="tags">Топ 30 тегов</h3>
+            <div class="tag-cloud">
+                @foreach (var tag in @Model.Tags)
+                {
+                    <a class="btn btn-outline-success" style="font-size:@(10 + tag.Count * 2)px" asp-area="" asp-route-tagName="@tag.Name" asp-controller="Item" asp-action="ItemsByTag">#@tag.Name (@tag.Count)</a>
+                }
+            </div>
+            
+        </div>
+    </div>
+</div>

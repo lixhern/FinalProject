@@ -1,0 +1,53 @@
+﻿@{ 
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-3 mt-3">@User.Identity.Name</h1>
+                <h4> <a class="lang" key="mycollections" asp-area=""  asp-controller="Collection" asp-action="Collections">Мои коллекции</a></h4>
+                @if (Model.Count == 0)
+                {
+                    <p class="lang" key="nocol">У вас пока нет ни одной коллекции.</p>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var collection in Model)
+                        {
+                            <li>
+                                <a asp-area="" asp-route-id="@collection.Id" asp-controller="Collection" asp-action="Index">@collection.Name</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+            <div class="col-10">
+                <h1 class="lang mb-3 mt-3" key="personal">Личный кабинет</h1>
+                @if (User.IsInRole("admin"))
+                {
+                    <h4 class="lang" key="admin" style=" color: red;"> ADMIN</h4>
+                }
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <a class="lang" key="createcol" asp-area="" asp-controller="Collection" asp-action="Create">Create new collection?</a>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th><a class="lang" key="allIssues" asp-area="" asp-controller="Jira" asp-action="ShowIssues">See all issues</a></th>
+                        </tr>
+                        @if (User.IsInRole("admin"))
+                        {
+                           
+                            <tr>
+                                <th>
+                                    <a class="lang" key="roles" asp-area="" asp-controller="AdminPanel" asp-action="Index">Назначение ролей</a>
+                                </th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

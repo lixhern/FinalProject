@@ -1,0 +1,28 @@
+﻿@{
+    <div class="mb-3 mt-3">
+        <h4><t class="lang" key="colbycat">Collections by category:</t><t>@Model.CategoryName</t></h4>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+
+                <th class="lang" key="nameCol" scope="col">Название коллекции</th>
+                <th class="lang" key="catCol" scope="col">Категории</th>
+                <th class="lang" key="author" scope="col">Автор</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var collection in @Model.Collections)
+            {
+
+                <tr>
+
+                    <td scope="row"><a asp-area="" asp-route-id="@collection.Id" asp-controller="Collection" asp-action="Index">@collection.Name</a></td>
+                    <td scope="row"><a asp-area="" asp-route-category="@collection.Category" asp-controller="Collection" asp-action="CollectionsByCategory">@collection.Category </a></td>
+                    <td scope="row"><a asp-area="" asp-route-id="@collection.User.Id" asp-controller="Home" asp-action="UserView">@collection.User.UserName</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

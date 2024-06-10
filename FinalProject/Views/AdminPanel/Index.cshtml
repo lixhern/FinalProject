@@ -1,0 +1,77 @@
+﻿@model FinalProject.Models.AdminPanelModel;
+
+<h1 class="lang" key ="listRoles">Список ролей</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="lang" key="email">Email</th>
+            <th class="lang" key="username">Name</th>
+            <th class="lang" key="status">Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                @if(await Model.UserManager.IsInRoleAsync(user, "admin"))
+                {
+                    <td class="lang" key="admin" style="color:red">Admin</td>
+                }
+                else
+                {
+                    <td class="lang" key="user">User</td>
+                }
+                
+            </tr>
+            <tr>
+                <td>
+                    @if (await Model.UserManager.IsInRoleAsync(user, "admin"))
+                    {
+                        <form asp-action="TakeAwayAdminRights" asp-route-id="@user.Id">
+                            <button type="submit" class="btn btn-sm btn-primary lang" key="takeadmin">
+                                Забрать права администратора
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="GiveAdministatorRigths" asp-route-id="@user.Id">
+                            <button type="submit" class="btn btn-sm btn-danger lang" key="giveadmin">
+                                Выдать права администратора
+                            </button>
+                        </form>
+                    }
+                </td>
+                <td>
+                    @if (user.IsBlock)
+                    {
+                        <form asp-action="Unblock" asp-route-id="@user.Id">
+                            <button type="submit" class="btn btn-sm btn-primary lang" key="unblock">
+                                Разблокировать
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Block" asp-route-id="@user.Id">
+                            <button type="submit" class="btn btn-sm btn-primary lang" key="block">
+                                Заблокировать
+                            </button>
+                        </form>
+                    }
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id">
+                        <button type="submit" class="btn btn-sm btn-danger lang" key="delete">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,64 @@
+﻿@{
+    <div class="container md-4 mt-4">
+        <div class="row">
+            <h1>@Model.user.UserName</h1>
+        </div>  
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <h3 class="mt-2 mb-2 lang" key ="uscol" >Коллекции пользователя</h3>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th class="lang" key="nameCol" scope="col">Название коллекции</th>
+                            <th class="lang" key="catCol" scope="col">Категории</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var collection in @Model.Collections)
+                        {
+
+                            <tr>
+
+                                <td scope="row"><a asp-area="" asp-route-id="@collection.Id" asp-controller="Collection" asp-action="Index">@collection.Name</a></td>
+                                <td scope="row"><a asp-area="" asp-route-category="@collection.Category" asp-controller="Collection" asp-action="CollectionsByCategory">@collection.Category</a></td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <h3 class="mt-2 mb-2 lang" key ="usite" >Айтемы пользователя</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th class="lang" key="nameIte" scope="col">Название айтема</th>
+                            <th class="lang" key="nameCol" scope="col">Название коллекции</th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in @Model.Items)
+                        {
+                            <tr>
+                                <td scope="row"><a asp-area="" asp-route-id="@item.Id" asp-controller="Item" asp-action="Index">@item.Name</a></td>
+                                <td scope="row"><a asp-area="" asp-route-id="@item.Collection.Id" asp-controller="Collection" asp-action="Index">@item.Collection.Name</a></td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+   
+}

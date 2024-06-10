@@ -1,0 +1,99 @@
+﻿
+<style>
+    button.btn.btn-outline-success:focus {
+        outline: none;
+        box-shadow: none;
+    }
+</style>
+@{
+    <div class="row mb-3 mt-3">
+        <div class="d-flex justify-content-between align-item-center">
+            <div class="d-flex align-item-center">
+                <h4 class="me-3 lang" key="col1" >Collection: </h4>
+                <h4>@Model.Collection.Name</h4>
+
+            </div>
+            <!--<div>
+                @if (User.Identity.IsAuthenticated && (User.IsInRole("admin") || User.Identity.Name == Model.Collection.User.UserName))
+                {
+                    //<a class="btn btn-danger lang" asp-route-id="@Model.Collection.Id"  asp-controller="Collection" asp-action="Delete" key="delete"></a>
+                }
+            </div>-->
+        </div>  
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th><t class="lang" key="author">Author</t><t>:</t></th>
+                        <th>@Model.Collection.User.UserName</th>
+                    </tr>
+                    <tr>
+                        <th class="lang" key="category">Category:</th>
+                        <th>@Model.Collection.Category</th>
+                    </tr>
+                    <tr>
+                        <th><t class="lang" key="description">Description</t><t>:</t> </th>
+                        <th>@Model.Collection.Description</th>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row mb-2 mt-3"><h4 class="lang" key="items2">Items:</h4></div>
+    <div class="container">
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" class="lang" key="nameIte">Name</th>
+                        @if (@Model.Collection.CustomString1State)
+                        {
+                            <th scope="col">@Model.Collection.CustomString1Name</th>
+                        }
+                        @if (@Model.Collection.CustomString2State)
+                        {
+                            <th scope="col">@Model.Collection.CustomString2Name</th>
+                        }
+                        @if (@Model.Collection.CustomString3State)
+                        {
+                            <th scope="col">@Model.Collection.CustomString3Name</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+
+                            <td scope="row"><a asp-area="" asp-route-id="@item.Id" asp-controller="Item" asp-action="Index">@item.Name</a></td>
+                            @if (@Model.Collection.CustomString1State)
+                            {
+                                <td scope="row">@item.CustomString1</td>
+                            }
+                            @if (@Model.Collection.CustomString2State)
+                            {
+                                <td scope="row">@item.CustomString2</td>
+                            }
+                            @if (Model.Collection.CustomString3State)
+                            {
+                                <td scope="row">@item.CustomString3</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if ( User.Identity.IsAuthenticated && (User.IsInRole("admin") || User.Identity.Name == Model.Collection.User.UserName))
+        {
+            <div class="d-flex justify-content-center align-items-center">
+                <a class="btn btn-outline-success lang" key="createitem" asp-area="" asp-route-id="@Model.Collection.Id" asp-controller="Item" asp-action="Create" class="btn btn-primary">Create Item</a>
+            </div>
+        }
+    </div>
+}

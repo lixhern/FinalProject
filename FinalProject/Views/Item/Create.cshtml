@@ -1,0 +1,107 @@
+﻿@model FinalProject.ViewModels.CreateItemViewModel;
+
+@{
+    <style>
+          button.btn.btn-outline-success:focus {
+              outline: none;
+              box-shadow: none;
+          }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col">
+                
+                <form method="post" asp-controller="Item" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label lang" key="nameItem">Name of the Item</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name"></span>
+                    </div>
+                    
+                    @if (@ViewBag.Collection.CustomString1State)
+                    {
+                        <div class="mb-3">
+                            <label asp-for="CustomString1Name" class="form-label">@ViewBag.Collection.CustomString1Name</label>
+                            <input asp-for="CustomString1Name" class="form-control" />
+                        </div>
+                    }
+                    @if (@ViewBag.Collection.CustomString2State)
+                    {
+                        <div class="mb-3">
+                            <label asp-for="CustomString2Name" class="form-label">@ViewBag.Collection.CustomString2Name</label>
+                            <input asp-for="CustomString2Name" class="form-control" />
+                        </div>
+                    }
+                    @if (@ViewBag.Collection.CustomString3State)
+                    {
+                        <div class="mb-3">
+                            <label asp-for="CustomString3Name" class="form-label">@ViewBag.Collection.CustomString3Name</label>
+                            <input asp-for="CustomString3Name" class="form-control" />
+                        </div>
+                    }
+                    <div class="mb-3">
+                        <label asp-for="Tags" for = "Tags" class="form-label lang" key="tags2">Tags</label>
+                        <input asp-for="Tags" class="form-control" type="text" id="tagsInput" placeholder="Введите теги с символом #">
+                        <div id="tagSuggestions"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-success">Submit</button>
+                </form>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+
+}
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('tagsInput').addEventListener('input', function () {
+                var inputText = this.value;
+                var tags = inputText.split('#').map(tag => '#' + tag.trim()).filter(tag => tag !== '#');
+                var lastTag = tags[tags.length - 1];
+
+                if (lastTag) {
+                    fetchTags(lastTag.substring(1));
+                } else {
+                    document.getElementById('tagSuggestions').innerHTML = '';
+                }
+            });
+
+            document.addEventListener('click', function (event) {
+                if (event.target && event.target.matches('#tagSuggestions div')) {
+                    var clickedTag = event.target.textContent;
+                    var tagsInputValue = document.getElementById('tagsInput').value;
+                    var tags = tagsInputValue.split('#').map(tag => '#' + tag.trim()).filter(tag => tag !== '#');
+
+                    tags[tags.length - 1] = '#' + clickedTag;
+                    var newValue = tags.join(' ');
+
+                    document.getElementById('tagsInput').value = newValue;
+                    document.getElementById('tagSuggestions').innerHTML = '';
+                }
+            });
+
+            function fetchTags(query) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        var suggestions = '';
+                        data.forEach(function (tag) {
+                            suggestions += '<div>' + tag.name + '</div>';
+                        });
+                        document.getElementById('tagSuggestions').innerHTML = suggestions;
+                    }
+                };
+                xhr.open('GET', '/api/tag?query=' + query, true);
+                xhr.send();
+            }
+        });
+
+    </script>
+}

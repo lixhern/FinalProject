@@ -1,0 +1,27 @@
+﻿
+@{
+    <div class="mb-3 mt-3 ">
+        <h4><t class="lang" key="itemtag">Items by tag:</t> <t>#@Model.TagName</t></h4>
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="lang" key="nameItem">Name</th>
+                <th class="lang" key="nameI">Collection</th>
+                <th class="lang" key="authorI">Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Items)
+            {
+                <tr>
+                    <th><a asp-area="" asp-route-id="@item.Id" asp-controller="Item" asp-action="Index">@item.Name</a></th>
+                    <th><a asp-area="" asp-route-id="@item.Collection.Id" asp-controller="Collection" asp-action="Index">@item.Collection.Name</a></th>
+                    <th><a asp-area="" asp-route-id="@item.User.Id" asp-controller="Home" asp-action="UserView">@item.User.UserName</a></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

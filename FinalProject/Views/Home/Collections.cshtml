@@ -1,0 +1,38 @@
+﻿@{
+
+    <div class="row mt-4 mb-4">
+        <h4 class="lang" key="allcol">All collections</h4>
+    </div>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="lang" key="nameCol">Collection name</th>
+                    <th class="lang" key="author"> Author</th>
+                    <th class="lang" key="category1"> Category</th>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <th> Action</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var collection in Model)
+                {
+                    <tr>
+                        <th><a asp-area="" asp-route-id="@collection.Id" asp-controller="Collection" asp-action="Index">@collection.Name</a></th>
+                        <th><a asp-area="" asp-route-id="@collection.User.Id" asp-controller="Home" asp-action="UserView">@collection.User.UserName</a></th>
+                        <th><a asp-area="" asp-route-category="@collection.Category" asp-controller="Collection" asp-action="CollectionsByCategory">@collection.Category </a></th>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <th><a class="btn btn-danger lang" key="delete" asp-route-id="@collection.Id" asp-route-extraParam="Home" asp-controller="Collection" asp-action="Delete"></a></th>
+                        }
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+}

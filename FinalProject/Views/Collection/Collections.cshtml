@@ -1,0 +1,26 @@
+﻿@{ 
+
+        <div class="row mb-3 mt-3"><h3 class="lang" key="col2">Collections:</h3></div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="lang" key ="nameCol">Collection name</th>
+                        <th class="lang" key ="author">Author</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var collection in Model)
+            {
+                    <tr>
+                        <th><a asp-route-id="@collection.Id" asp-controller="Collection" asp-action="Index">@collection.Name</a></th>
+                        <th>@User.Identity.Name</th>
+                        <th><a class="btn btn-danger lang" id="deleteBtn" asp-route-id="@collection.Id" asp-route-extraParam="AdminPanel" asp-controller="Collection" asp-action="Delete" key="delete"></a></th>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+   
+}
